@@ -1,0 +1,31 @@
+{
+  "name": "pramana",
+  "version": "0.0.1",
+  "description": "High-performance, zero-dependency, algorithmic validation library for the Indian context (Aadhaar, PAN, GSTIN, IFSC, Pincode).",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsup",
+    "test": "vitest",
+    "lint": "tsc --noEmit"
+  },
+  "keywords": [
+    "validation",
+    "india",
+    "aadhaar",
+    "pan",
+    "gstin",
+    "ifsc",
+    "pincode",
+    "typescript",
+    "zero-dependency"
+  ],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "tsup": "^8.5.1",
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.16"
+  }
+}
