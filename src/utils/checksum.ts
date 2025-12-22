@@ -4,7 +4,9 @@
  * @param numStr The number string to validate.
  * @returns True if valid, false otherwise.
  */
-export const validateLuhn = (numStr: string): boolean => {
+export const validateLuhn = (numStr: any): boolean => {
+    // Defensive: Handle null/undefined/non-string
+    if (numStr == null || typeof numStr !== 'string') return false;
     if (!/^\d+$/.test(numStr)) return false;
 
     let sum = 0;

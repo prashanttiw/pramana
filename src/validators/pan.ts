@@ -3,7 +3,11 @@
  * @param pan The 10-character PAN string.
  * @returns True if valid, false otherwise.
  */
-export const isValidPAN = (pan: string): boolean => {
+export const isValidPAN = (pan: any): boolean => {
+    // 0. Null/undefined check
+    if (pan == null) return false;
+    if (typeof pan !== 'string') return false;
+    
     // 1. Structure: 5 chars, 4 digits, 1 char using Regex
     const regex = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/;
     if (!regex.test(pan)) return false;

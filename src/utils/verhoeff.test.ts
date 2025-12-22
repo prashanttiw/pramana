@@ -21,6 +21,34 @@ describe('Verhoeff Algorithm', () => {
         });
     });
 
+    describe('validateVerhoeff - Edge Cases', () => {
+        it('should reject whitespace', () => {
+            expect(validateVerhoeff(' 236')).toBe(false);
+            expect(validateVerhoeff('236 ')).toBe(false);
+            expect(validateVerhoeff('2 36')).toBe(false);
+        });
+
+        it('should reject empty string', () => {
+            expect(validateVerhoeff('')).toBe(false);
+        });
+
+        it('should reject null/undefined input', () => {
+            expect(validateVerhoeff(null)).toBe(false);
+            expect(validateVerhoeff(undefined)).toBe(false);
+        });
+
+        it('should reject non-string input', () => {
+            expect(validateVerhoeff(236)).toBe(false);
+            expect(validateVerhoeff({})).toBe(false);
+            expect(validateVerhoeff([])).toBe(false);
+        });
+
+        it('should handle single digit', () => {
+            // Verhoeff check digit for empty string is 0
+            expect(validateVerhoeff('0')).toBe(true);
+        });
+    });
+
     describe('generateVerhoeff', () => {
         it('should generate correct checksums', () => {
             expect(generateVerhoeff('23')).toBe(6);

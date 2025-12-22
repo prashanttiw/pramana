@@ -6,7 +6,11 @@ import { GST_STATE_CODES } from '../data/gst_states';
  * @param gstin The 15-character GSTIN string.
  * @returns True if valid, false otherwise.
  */
-export const isValidGSTIN = (gstin: string): boolean => {
+export const isValidGSTIN = (gstin: any): boolean => {
+    // 0. Null/undefined check
+    if (gstin == null) return false;
+    if (typeof gstin !== 'string') return false;
+    
     // 1. Basic Regex Structure
     const regex = /^\d{2}[A-Z]{5}\d{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/;
 

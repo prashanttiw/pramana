@@ -38,7 +38,9 @@ const inv = [0, 4, 3, 2, 1, 5, 6, 7, 8, 9];
  * @param numStr The number string to validate.
  * @returns True if valid, false otherwise.
  */
-export const validateVerhoeff = (numStr: string): boolean => {
+export const validateVerhoeff = (numStr: any): boolean => {
+    // Defensive: Handle null/undefined/non-string
+    if (numStr == null || typeof numStr !== 'string') return false;
     if (!/^\d+$/.test(numStr)) return false;
 
     let c = 0;
@@ -56,7 +58,11 @@ export const validateVerhoeff = (numStr: string): boolean => {
  * @param numStr The number string (without the checksum).
  * @returns The checksum digit.
  */
-export const generateVerhoeff = (numStr: string): number => {
+export const generateVerhoeff = (numStr: any): number => {
+    // Defensive: Handle null/undefined/non-string
+    if (numStr == null || typeof numStr !== 'string') {
+        throw new Error('Input must be a non-null string');
+    }
     if (!/^\d+$/.test(numStr)) {
         throw new Error('Input must be a numeric string');
     }

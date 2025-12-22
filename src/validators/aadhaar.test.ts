@@ -32,4 +32,34 @@ describe('Aadhaar Validator', () => {
     it('should reject invalid checksum', () => {
         expect(isValidAadhaar('999999990018')).toBe(false);
     });
+
+    it('should reject null/undefined input', () => {
+        expect(isValidAadhaar(null)).toBe(false);
+        expect(isValidAadhaar(undefined)).toBe(false);
+    });
+
+    it('should reject non-string input', () => {
+        expect(isValidAadhaar(999999990019)).toBe(false);
+        expect(isValidAadhaar({})).toBe(false);
+        expect(isValidAadhaar([])).toBe(false);
+    });
+
+    it('should reject whitespace and special characters', () => {
+        const base = '99999999001';
+        const check = generateVerhoeff(base);
+        const validAadhaar = base + check;
+        
+        // Whitespace should invalidate
+        expect(isValidAadhaar(' ' + validAadhaar)).toBe(false);
+        expect(isValidAadhaar(validAadhaar + ' ')).toBe(false);
+        expect(isValidAadhaar(validAadhaar.substring(0, 6) + ' ' + validAadhaar.substring(6))).toBe(false);
+        
+        // Dashes/special chars
+        expect(isValidAadhaar('9999-9999-0019')).toBe(false);
+        expect(isValidAadhaar('9999 9999 0019')).toBe(false);
+    });
+
+    it('should reject empty string', () => {
+        expect(isValidAadhaar('')).toBe(false);
+    });
 });

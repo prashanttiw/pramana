@@ -5,7 +5,11 @@ import { PINCODE_REGIONS } from '../data/pincodes';
  * @param pincode The 6-digit Pincode string.
  * @returns True if valid, false otherwise.
  */
-export const isValidPincode = (pincode: string): boolean => {
+export const isValidPincode = (pincode: any): boolean => {
+    // 0. Null/undefined check
+    if (pincode == null) return false;
+    if (typeof pincode !== 'string') return false;
+    
     // 1. Structure: 6 digits, first digit 1-9
     const regex = /^[1-9][0-9]{5}$/;
     if (!regex.test(pincode)) return false;

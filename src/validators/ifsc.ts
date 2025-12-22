@@ -5,7 +5,11 @@ import { BANK_CODES } from '../data/banks';
  * @param ifsc The 11-character IFSC string.
  * @returns True if valid, false otherwise.
  */
-export const isValidIFSC = (ifsc: string): boolean => {
+export const isValidIFSC = (ifsc: any): boolean => {
+    // 0. Null/undefined check
+    if (ifsc == null) return false;
+    if (typeof ifsc !== 'string') return false;
+    
     // 1. Structure: 4 chars, 0, 6 chars (alphanumeric)
     const regex = /^[A-Z]{4}0[A-Z0-9]{6}$/;
     if (!regex.test(ifsc)) return false;

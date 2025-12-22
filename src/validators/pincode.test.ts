@@ -17,4 +17,33 @@ describe('Pincode Validator', () => {
     it('should reject unknown regions', () => {
         expect(isValidPincode('980001')).toBe(false); // 98 not likely mapped/valid
     });
+
+    it('should reject null/undefined input', () => {
+        expect(isValidPincode(null)).toBe(false);
+        expect(isValidPincode(undefined)).toBe(false);
+    });
+
+    it('should reject non-string input', () => {
+        expect(isValidPincode(110001)).toBe(false);
+        expect(isValidPincode({})).toBe(false);
+        expect(isValidPincode([])).toBe(false);
+    });
+
+    it('should reject whitespace and special characters', () => {
+        // Pincode with valid structure
+        const validPincode = '110001';
+        
+        // Whitespace should invalidate
+        expect(isValidPincode(' ' + validPincode)).toBe(false);
+        expect(isValidPincode(validPincode + ' ')).toBe(false);
+        expect(isValidPincode(validPincode.substring(0, 3) + ' ' + validPincode.substring(3))).toBe(false);
+        
+        // Dashes/special chars
+        expect(isValidPincode('110-001')).toBe(false);
+        expect(isValidPincode('110 001')).toBe(false);
+    });
+
+    it('should reject empty string', () => {
+        expect(isValidPincode('')).toBe(false);
+    });
 });

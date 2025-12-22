@@ -5,7 +5,11 @@ import { validateVerhoeff } from '../utils/verhoeff';
  * @param aadhaar The 12-digit Aadhaar number string.
  * @returns True if valid, false otherwise.
  */
-export const isValidAadhaar = (aadhaar: string): boolean => {
+export const isValidAadhaar = (aadhaar: any): boolean => {
+    // 0. Null/undefined check
+    if (aadhaar == null) return false;
+    if (typeof aadhaar !== 'string') return false;
+    
     // 1. Structure: 12 digits
     if (!/^\d{12}$/.test(aadhaar)) return false;
 

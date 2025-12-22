@@ -16,5 +16,26 @@ describe('Checksum Utils', () => {
         it('should reject non-numeric strings', () => {
             expect(validateLuhn('abc')).toBe(false);
         });
+
+        it('should reject whitespace', () => {
+            expect(validateLuhn(' 79927398713')).toBe(false);
+            expect(validateLuhn('79927398713 ')).toBe(false);
+            expect(validateLuhn('799 273 987 13')).toBe(false);
+        });
+
+        it('should reject empty string', () => {
+            expect(validateLuhn('')).toBe(false);
+        });
+
+        it('should reject null/undefined input', () => {
+            expect(validateLuhn(null)).toBe(false);
+            expect(validateLuhn(undefined)).toBe(false);
+        });
+
+        it('should reject non-string input', () => {
+            expect(validateLuhn(79927398713)).toBe(false);
+            expect(validateLuhn({})).toBe(false);
+            expect(validateLuhn([])).toBe(false);
+        });
     });
 });
