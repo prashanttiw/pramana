@@ -1,2 +1,2 @@
-// Export utils here
-// export * from './checksum';
+export * from './verhoeff';
+export * from './checksum';
