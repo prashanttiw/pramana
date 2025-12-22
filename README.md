@@ -30,7 +30,7 @@ Pramana is a **high-performance, zero-dependency, production-ready validation li
 ## 📦 Installation
 
 ```bash
-npm install pramana
+npm install @prashanttiw/pramana
 ```
 
 ### Optional: Zod Support
@@ -54,7 +54,7 @@ import {
   isValidGSTIN,
   isValidIFSC,
   isValidPincode 
-} from 'pramana';
+} from '@prashanttiw/pramana';
 
 // Aadhaar (12 digits with Verhoeff checksum)
 isValidAadhaar('999999990019');  // true
@@ -87,7 +87,7 @@ import {
   getGSTINInfo,
   getPANInfo,
   getPincodeInfo 
-} from 'pramana/validators';
+} from '@prashanttiw/pramana/validators';
 
 // Extract state from GSTIN
 const gstin = getGSTINInfo('29ABCDE1234F1Z5');
@@ -106,7 +106,7 @@ console.log(pincode.region); // "Delhi"
 
 ```typescript
 import { z } from 'zod';
-import { aadhaarSchema, panSchema, gstinSchema } from 'pramana/zod';
+import { aadhaarSchema, panSchema, gstinSchema } from '@prashanttiw/pramana/zod';
 
 // Create a schema combining Pramana validators with other fields
 const UserSchema = z.object({
@@ -263,7 +263,7 @@ if (!result) {
 A: Combine with Zod for real-time validation:
 
 ```typescript
-import { aadhaarSchema } from 'pramana/zod';
+import { aadhaarSchema } from '@prashanttiw/pramana/zod';
 
 // In your form handler
 const validationResult = aadhaarSchema.safeParse(userInput);

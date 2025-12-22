@@ -526,7 +526,7 @@ import {
   isValidGSTIN,
   isValidIFSC,
   isValidPincode
-} from 'pramana';
+} from '@prashanttiw/pramana';
 
 // Validate Aadhaar
 if (isValidAadhaar('999999990019')) {
@@ -557,7 +557,7 @@ if (isValidPincode('110001')) {
 ### Metadata Extraction
 
 ```typescript
-import { getPANInfo, getGSTINInfo, getPincodeInfo } from 'pramana';
+import { getPANInfo, getGSTINInfo, getPincodeInfo } from '@prashanttiw/pramana';
 
 // Extract PAN information
 const panInfo = getPANInfo('ABCPE1234F');
@@ -577,7 +577,7 @@ console.log(pincodeInfo.region);    // 'Delhi'
 ### Zod Integration
 
 ```typescript
-import { aadhaarSchema, panSchema, gstinSchema, ifscSchema, pincodeSchema } from 'pramana/zod';
+import { aadhaarSchema, panSchema, gstinSchema, ifscSchema, pincodeSchema } from '@prashanttiw/pramana/zod';
 import { z } from 'zod';
 
 // Use in Zod schemas
@@ -670,7 +670,7 @@ import {
   gstinSchema,
   ifscSchema,
   pincodeSchema
-} from 'pramana/zod';
+} from '@prashanttiw/pramana/zod';
 ```
 
 Each schema validates the corresponding ID type with custom error messages.
@@ -858,10 +858,10 @@ npm install pramana
 node -e "const p = require('pramana'); console.log(p.isValidAadhaar('999999990019'));"
 
 # Test ESM import
-node --input-type=module -e "import * as p from 'pramana'; console.log(p.isValidAadhaar('999999990019'));"
+node --input-type=module -e "import * as p from '@prashanttiw/pramana'; console.log(p.isValidAadhaar('999999990019'));"
 
 # Verify Zod integration
-npm install pramana zod
+npm install @prashanttiw/pramana zod
 node -e "const {aadhaarSchema} = require('pramana/zod'); console.log(aadhaarSchema.safeParse('999999990019'));"
 ```
 
@@ -942,7 +942,7 @@ All validators implement 4-layer security:
 **"Import errors"**
 - Verify correct import path (`pramana` or `pramana/zod`)
 - Check TypeScript version (>= 4.5)
-- Ensure package is installed (`npm install pramana`)
+- Ensure package is installed (`npm install @prashanttiw/pramana`)
 
 **"Zod integration not working"**
 - Zod is optional peer dependency (install separately)
