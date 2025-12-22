@@ -14,3 +14,25 @@ export const isValidPincode = (pincode: string): boolean => {
     const regionKey = pincode.substring(0, 2);
     return Object.prototype.hasOwnProperty.call(PINCODE_REGIONS, regionKey);
 };
+
+export interface PincodeInfo {
+    valid: boolean;
+    region?: string;
+}
+
+/**
+ * Extracts metadata from a Pincode.
+ * @param pincode The Pincode string.
+ * @returns Object containing validity and region info.
+ */
+export const getPincodeInfo = (pincode: string): PincodeInfo => {
+    if (!isValidPincode(pincode)) {
+        return { valid: false };
+    }
+
+    const regionKey = pincode.substring(0, 2);
+    return {
+        valid: true,
+        region: PINCODE_REGIONS[regionKey] || 'Unknown Region',
+    };
+};

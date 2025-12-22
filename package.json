@@ -5,6 +5,19 @@
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    },
+    "./zod": {
+      "types": "./dist/zod/index.d.ts",
+      "import": "./dist/zod/index.mjs",
+      "require": "./dist/zod/index.js"
+    }
+  },
+  "sideEffects": false,
   "scripts": {
     "build": "tsup",
     "test": "vitest",
@@ -21,11 +34,20 @@
     "typescript",
     "zero-dependency"
   ],
-  "author": "",
+  "author": "Pramana Team",
   "license": "ISC",
   "devDependencies": {
     "tsup": "^8.5.1",
     "typescript": "^5.9.3",
-    "vitest": "^4.0.16"
+    "vitest": "^4.0.16",
+    "zod": "^4.2.1"
+  },
+  "peerDependencies": {
+    "zod": "^3.0.0"
+  },
+  "peerDependenciesMeta": {
+    "zod": {
+      "optional": true
+    }
   }
 }

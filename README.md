@@ -20,12 +20,20 @@
 - **Modular**: Tree-shakable. Import only what you need.
 
 ## 📦 Installation
-(Coming soon to npm)
+
 ```bash
 npm install pramana
 ```
 
+> **Note**: If you want to use the Zod schemas, ensure `zod` is also installed.
+
+```bash
+npm install zod
+```
+
 ## 💻 Usage
+
+### Core Validators
 
 ```typescript
 import { isValidAadhaar, isValidPAN, isValidGSTIN } from 'pramana';
@@ -38,6 +46,30 @@ console.log(isValidPAN('ABCPE1234F')); // true (P = Person)
 
 // GSTIN Validation (Mod-36 Checksum)
 console.log(isValidGSTIN('29ABCDE1234F1Z5')); // true
+```
+
+### Zod Integration
+
+Pramana exports pre-configured Zod schemas via a submodule.
+
+```typescript
+import { z } from 'zod';
+import { aadhaarSchema, panSchema } from 'pramana/zod';
+
+const UserSchema = z.object({
+  name: z.string(),
+  aadhaar: aadhaarSchema,
+  pan: panSchema.optional()
+});
+
+try {
+  UserSchema.parse({
+    name: "Aditya",
+    aadhaar: "999999990019"
+  });
+} catch (e) {
+  console.error(e.errors);
+}
 ```
 
 ## 🧠 Deep Dive: Validation Logic
@@ -100,6 +132,16 @@ src/
 - **Test**: `npm run test` (Runs `vitest`)
 - **Lint**: `npm run lint`
 
+## 📚 API Reference
+
+| Validator | Function | Description |
+|-----------|----------|-------------|
+| **Aadhaar** | `isValidAadhaar(num)` | Validates 12-digit UID using Verhoeff algorithm. |
+| **PAN** | `isValidPAN(num)` | Validates 10-char alphanumeric logic & 4th-char entity type. |
+| **GSTIN** | `isValidGSTIN(num)` | Validates 15-char ID & Mod-36 check digit. |
+| **IFSC** | `isValidIFSC(code)` | Validates 11-char code & checks against Bank whitelist. |
+| **Pincode** | `isValidPincode(num)` | Validates 6-digit code & checks against Postal Circle map. |
+
 ## 🔮 Future Roadmap
 
 To make Pramana the definitive validation suite for India, the following features are planned:
@@ -115,10 +157,20 @@ Instead of just returning `true/false`, validators will optionally return metada
 - **Driving License**: State-wise logic verification.
 - **UAN (Universal Account Number)**: Luhn algorithm verification.
 - **CIN (Corporate Identity Number)**: Validate Company Type, Year, and State.
+- **Vehicle RC**: Registration number validation.
 
 ### 3. Framework Integrations
 - **Zod / Yup Schemas**: Plug-and-play wrappers for modern form validation.
 - **React Hooks**: `usePramana` for real-time form feedback.
+
+## 🤝 Contributing
+
+We welcome contributions!
+1. Fork the repo.
+2. Create your validator in `src/validators/`.
+3. Add a test file in `src/validators/`.
+4. Ensure `npm test` passes (100% coverage required).
+5. Submit a PR.
 
 ## 📜 License
 ISC
