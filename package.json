@@ -1,5 +1,5 @@
 {
-  "name": "pramana",
+  "name": "@prashanttiw/pramana",
   "version": "1.0.0",
   "description": "High-performance, zero-dependency, algorithmic validation library for the Indian context (Aadhaar, PAN, GSTIN, IFSC, Pincode).",
   "main": "dist/index.js",
