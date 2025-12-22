@@ -21,7 +21,8 @@
   "scripts": {
     "build": "tsup",
     "test": "vitest",
-    "lint": "tsc --noEmit"
+    "lint": "tsc --noEmit",
+    "gen:context": "node scripts/generate-context.js"
   },
   "keywords": [
     "validation",
