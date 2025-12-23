@@ -9,15 +9,17 @@ Welcome to the Pramana project! We're excited that you want to contribute to mak
 ## Table of Contents
 
 1. [Code of Conduct](#code-of-conduct)
-2. [How Can I Contribute?](#how-can-i-contribute)
-3. [Development Setup](#development-setup)
-4. [Making Changes](#making-changes)
-5. [Commit Guidelines](#commit-guidelines)
-6. [Testing Requirements](#testing-requirements)
-7. [Pull Request Process](#pull-request-process)
-8. [Style Guide](#style-guide)
-9. [Recognition](#recognition)
-10. [Questions?](#questions)
+2. [Security Vulnerabilities](#security-vulnerabilities)
+3. [How Can I Contribute?](#how-can-i-contribute)
+4. [Development Setup](#development-setup)
+5. [Making Changes](#making-changes)
+6. [Commit Guidelines](#commit-guidelines)
+7. [Testing Requirements](#testing-requirements)
+8. [Pull Request Process](#pull-request-process)
+9. [Style Guide](#style-guide)
+10. [Community](#community)
+11. [Recognition](#recognition)
+12. [Questions?](#questions)
 
 ---
 
@@ -48,6 +50,51 @@ We are committed to providing a welcoming and inclusive environment for all cont
 Contributors who violate this code of conduct may be temporarily or permanently banned from the project.
 
 **Report violations to:** [maintainer contact information]
+
+---
+
+## Security Vulnerabilities
+
+### Responsible Disclosure
+
+We take security seriously. If you discover a security vulnerability in Pramana, **please do NOT report it publicly** via GitHub issues or discussions.
+
+### How to Report Security Issues
+
+Instead, please email your findings directly to:
+
+📧 **hook.crook1@gmail.com**
+
+Include the following information:
+
+- **Description**: Clear description of the vulnerability
+- **Affected Version(s)**: Which version(s) of Pramana are affected?
+- **Proof of Concept**: Steps to reproduce or code demonstrating the issue
+- **Potential Impact**: What's the severity? Who could be affected?
+- **Suggested Fix**: (Optional) If you have a suggested patch
+
+### Security Response Timeline
+
+- **48 hours**: Initial acknowledgment of your report
+- **7 days**: Confirmation of the issue and proposed timeline for fix
+- **30 days**: Target for releasing a patched version
+- **Public Disclosure**: After patch release, we'll publicly acknowledge the fix and credit the reporter
+
+### What Qualifies as a Security Issue?
+
+✅ **Report privately:**
+- Algorithm flaws that could lead to invalid validation acceptance
+- Checksum bypass techniques
+- Input injection vulnerabilities
+- Dependency vulnerabilities affecting security
+
+❌ **OK to report publicly:**
+- Generic bugs
+- Documentation typos
+- Test failures
+- Performance issues
+
+Thank you for helping keep Pramana secure! 🔒
 
 ---
 
@@ -250,6 +297,34 @@ You should see:
 - ✅ 0 TypeScript errors
 - ✅ Build output in `dist/`
 
+### Step 5: Testing Locally in Your App
+
+Before submitting a PR, test your changes in a real application using `npm link`:
+
+```bash
+# In the Pramana directory, create a global symlink
+cd /path/to/pramana
+npm link
+
+# In your test app directory, link Pramana
+cd /path/to/your-test-app
+npm link @prashanttiw/pramana
+
+# Now your app uses your local Pramana build
+import { isValidAadhaar } from '@prashanttiw/pramana';
+
+# After testing, unlink to restore npm registry version
+npm unlink @prashanttiw/pramana
+cd /path/to/pramana
+npm unlink
+```
+
+**Why test locally?**
+- Catch integration issues before PR
+- Verify the validator works in real-world scenarios
+- Test both CommonJS and ES Module imports
+- Ensure no unexpected side effects
+
 ---
 
 ## Making Changes
@@ -299,6 +374,30 @@ src/
 ## Commit Guidelines
 
 We use **Conventional Commits** for clear, semantic version control.
+
+### SemVer & Automatic Versioning
+
+Pramana strictly follows **Semantic Versioning (SemVer)**:
+
+```
+MAJOR.MINOR.PATCH
+X.Y.Z
+```
+
+**Version bumping is automated based on commit types:**
+
+| Commit Type | Version Bump | Example |
+|-------------|--------------|---------|
+| `feat:` | Minor (0.1.0 → 0.2.0) | New validator added |
+| `fix:` | Patch (0.1.0 → 0.1.1) | Bug fix |
+| `feat!:` or `BREAKING CHANGE:` | Major (0.1.0 → 1.0.0) | API change |
+| `docs:`, `test:`, `chore:` | No version bump | Documentation updates |
+
+**What this means:**
+- ✅ Always use the correct commit type
+- ✅ Breaking changes must be marked with `!` or footer
+- ✅ This enables automated release workflows
+- ✅ Semantic versioning builds trust with users
 
 ### Commit Format
 
@@ -532,6 +631,8 @@ Steps to verify the changes work:
 - [ ] I have updated documentation if needed
 - [ ] My commit messages follow Conventional Commits
 - [ ] No breaking changes (or documented if there are)
+- [ ] I have tested locally using `npm link` (for new validators)
+- [ ] **License Agreement**: By submitting this PR, I agree that my contributions will be licensed under the project's **ISC License**
 
 ## Screenshots (if applicable)
 <!-- Add screenshots for documentation/UI changes -->

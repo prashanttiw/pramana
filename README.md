@@ -159,7 +159,69 @@ All validators:
 - ✅ Reject empty strings
 - ✅ Reject whitespace-containing inputs
 - ✅ Return `false` for invalid inputs (no exceptions thrown)
+---
 
+## 📚 Documentation Roadmap
+
+Not sure where to start? This table maps your needs to the right documentation:
+
+| I want to... | Resource | Description |
+|---|---|---|
+| **Get started quickly** | [README.md](./README.md) (this file) | Installation, quick-start examples, basic usage |
+| **Learn how validators work** | [README.md - How It Works](./README.md#-how-it-works-technical-deep-dive) | Algorithm explanations for each validator |
+| **Use in my project** | [README.md - Quick Start](./README.md#-quick-start) | Copy-paste code examples and usage patterns |
+| **Integrate with Zod** | [README.md - Quick Start](./README.md#-quick-start) | Form validation with Zod schemas |
+| **Understand the architecture** | [COMPLETE_PROJECT_GUIDE.md](./COMPLETE_PROJECT_GUIDE.md) | Full project structure, validators, algorithms, and design |
+| **See all validators & info extractors** | [COMPLETE_PROJECT_GUIDE.md - API Reference](./COMPLETE_PROJECT_GUIDE.md#-api-reference) | Complete function documentation with examples |
+| **Contribute code** | [CONTRIBUTING.md](./CONTRIBUTING.md) | Development setup, PR process, testing requirements |
+| **Report a bug** | [CONTRIBUTING.md - Report Bugs](./CONTRIBUTING.md#1-report-bugs-) | Structured bug report template and guidelines |
+| **Request a new validator** | [CONTRIBUTING.md - Feature Requests](./CONTRIBUTING.md#2-suggest-features-or-new-validators-) | How to propose new Indian document validators |
+| **Report security issues** | [CONTRIBUTING.md - Security](./CONTRIBUTING.md#security-vulnerabilities) | Responsible disclosure process (hook.crook1@gmail.com) |
+| **Understand the code style** | [CONTRIBUTING.md - Style Guide](./CONTRIBUTING.md#style-guide) | TypeScript standards, naming conventions, documentation |
+| **Learn git workflow** | [CONTRIBUTING.md - Commit Guidelines](./CONTRIBUTING.md#commit-guidelines) | Conventional Commits, SemVer, branch naming |
+| **Set up development environment** | [CONTRIBUTING.md - Development Setup](./CONTRIBUTING.md#development-setup) | Step-by-step local setup with npm link testing |
+| **See what changed in latest version** | [TECHNICAL_CHANGES_SUMMARY.md](./TECHNICAL_CHANGES_SUMMARY.md) | Audit history, refactoring details, test coverage growth |
+| **Understand the audit process** | [DEPLOYMENT_AUDIT_REPORT.md](./DEPLOYMENT_AUDIT_REPORT.md) | Pre-deployment findings, quality metrics, security checklist |
+| **View test coverage & metrics** | [DEPLOYMENT_AUDIT_REPORT.md - Quality Metrics](./DEPLOYMENT_AUDIT_REPORT.md#quality-metrics) | 86 tests (100% pass), 0 vulnerabilities, full type safety |
+| **Get inspired by contributors** | [CONTRIBUTORS.md](./CONTRIBUTORS.md) | Recognition of all community members who helped |
+| **Join the community** | [CONTRIBUTING.md - Community](./CONTRIBUTING.md#community) | Discord, GitHub Discussions, Twitter, and more |
+| **Troubleshoot issues** | [CONTRIBUTING.md - Troubleshooting](./CONTRIBUTING.md#troubleshooting-guide) | Common problems and their solutions |
+| **Learn about validators in detail** | [CONTRIBUTING.md - Learning Resources](./CONTRIBUTING.md#learning-resources) | References to algorithms, government specs, and tutorials |
+
+### Quick Navigation by Role
+
+**👤 User/Developer**
+→ Start with [README.md](./README.md) and [Quick Start](./README.md#-quick-start)
+
+**🔧 Contributor**
+→ Read [CONTRIBUTING.md](./CONTRIBUTING.md) and [Development Setup](./CONTRIBUTING.md#development-setup)
+
+**📋 Bug Reporter**
+→ Check [CONTRIBUTING.md - Report Bugs](./CONTRIBUTING.md#1-report-bugs-) and use [bug_report.md template](./.github/ISSUE_TEMPLATE/bug_report.md)
+
+**✨ Feature Proposer**
+→ See [CONTRIBUTING.md - Feature Requests](./CONTRIBUTING.md#2-suggest-features-or-new-validators-) and [feature_request.md template](./.github/ISSUE_TEMPLATE/feature_request.md)
+
+**🏗️ Architect/Deep Diver**
+→ Explore [COMPLETE_PROJECT_GUIDE.md](./COMPLETE_PROJECT_GUIDE.md) for full architecture
+
+**🔐 Security Researcher**
+→ Read [CONTRIBUTING.md - Security](./CONTRIBUTING.md#security-vulnerabilities) for responsible disclosure
+
+---
+
+## 🤝 Can't Find What You Need?
+
+If you can't find the answer in our documentation:
+
+1. **Check [GitHub Discussions](https://github.com/prashanttiw/pramana/discussions)** - Ask your question or start a conversation with the community
+2. **Review [Troubleshooting Guide](./CONTRIBUTING.md#troubleshooting-guide)** - Common issues and solutions
+3. **Search [GitHub Issues](https://github.com/prashanttiw/pramana/issues)** - Your question might have been answered already
+4. **Report a [Bug](./CONTRIBUTING.md#1-report-bugs-) or [Request a Feature](./CONTRIBUTING.md#2-suggest-features-or-new-validators-)** - We're here to help!
+
+We're committed to making Pramana accessible to everyone. Don't hesitate to reach out! 💬
+
+---
 ## � How It Works (Technical Deep Dive)
 
 Unlike naive libraries that just use regex patterns, Pramana implements actual mathematical algorithms:
