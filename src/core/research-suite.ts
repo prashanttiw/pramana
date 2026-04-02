@@ -1,4 +1,4 @@
-import { GST_STATE_CODES } from '../data/gst_states';
+import { GST_STATE_CODES } from '../data/gstStates';
 
 // --------------------------------------------------------------------------
 // 0. GRAPHEME-SAFE UTILITIES
@@ -215,8 +215,6 @@ export const parseAddress = (address: string): AddressObject => {
     };
 
     if (!address) return result;
-
-    const lowerAddr = address.toLowerCase();
 
     // 1. Extract Pincode (6 digits, word boundary)
     // Look for pattern like "110001"

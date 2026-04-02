@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { isValidIFSC } from './ifsc';
+import { isValidIFSC } from '../../src/validators/ifsc';
 
 describe('IFSC Validator', () => {
     it('should validate correct IFSC numbers', () => {

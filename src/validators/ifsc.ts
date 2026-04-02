@@ -1,4 +1,4 @@
-import { BANK_CODES } from '../data/banks';
+import { BANK_CODES } from '../data/bankCodes';
 
 /**
  * Validates an IFSC Code.

@@ -112,6 +112,6 @@ export const normalizeIndic = (input) => {
 
 ## Recognition
 
-We value every contribution! All contributors will be listed in `CONTRIBUTORS.md` and our README.
+We value every contribution! All contributors will be listed in `HANDBOOK.md` and our README.
 
 **Made with ❤️ for India** 🇮🇳

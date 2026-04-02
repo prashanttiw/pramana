@@ -1,5 +1,5 @@
 import { validateGSTCheckDigit } from '../utils/mod36';
-import { GST_STATE_CODES } from '../data/gst_states';
+import { GST_STATE_CODES } from '../data/gstStates';
 
 /**
  * Validates a GSTIN.

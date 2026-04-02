@@ -28,6 +28,7 @@ Now upgraded to **Pramana 2.0**, it features a **Research & AI Suite** designed 
   - **Aadhaar**: Verhoeff algorithm (detects all single-digit errors)
   - **GSTIN**: Mod-36 checksum algorithm
   - **PAN**: Structural validation + entity type verification
+  - **TAN**: Structural validation (`AAAA99999A`)
   - **IFSC**: Bank code whitelist validation
   - **Pincode**: Postal circle validation
 - **Production-Ready**: Comprehensive tests (100% pass rate), 0 vulnerabilities
@@ -59,6 +60,7 @@ Zod is an optional peer dependency—use it only if you need schema validation.
 import { 
   isValidAadhaar, 
   isValidPAN, 
+  isValidTAN,
   isValidGSTIN,
   isValidIFSC,
   isValidPincode 
@@ -72,6 +74,11 @@ isValidAadhaar('12345678901');   // false (invalid checksum)
 isValidPAN('ABCPE1234F');        // true (P = Person)
 isValidPAN('ABCCD1234F');        // true (C = Company)
 isValidPAN('ABC1234567');        // false (invalid structure)
+
+// TAN (10 chars: AAAA99999A, structural validation)
+isValidTAN('DELA12345B');        // true
+isValidTAN('dela12345b');        // true (normalized to uppercase)
+isValidTAN('ABCD-12345-E');      // false (invalid structure)
 
 // GSTIN (15 chars with Mod-36 checksum)
 isValidGSTIN('29ABCDE1234F1Z5'); // true
@@ -152,6 +159,8 @@ console.log(pincode.region); // "Delhi"
 ```typescript
 import { z } from 'zod';
 import { aadhaarSchema, panSchema, gstinSchema } from '@prashanttiw/pramana/zod';
+// TAN/UAN only:
+import { tanSchema, uanSchema } from '@prashanttiw/pramana/zod';
 
 // Create a schema combining Pramana validators with other fields
 const UserSchema = z.object({
@@ -159,6 +168,8 @@ const UserSchema = z.object({
   email: z.string().email(),
   aadhaar: aadhaarSchema,
   pan: panSchema.optional(),
+  tan: tanSchema.optional(),
+  uan: uanSchema.optional(),
   gstin: gstinSchema.optional()
 });
 
@@ -182,10 +193,12 @@ try {
 | Document | Function | Description |
 |----------|----------|-------------|
 | **Aadhaar** | `isValidAadhaar(input)` | Validates 12-digit UID using Verhoeff algorithm |
-| **PAN** | `isValidPAN(input)` | Validates 10-char format + 4th char entity type |
 | **GSTIN** | `isValidGSTIN(input)` | Validates 15-char format + Mod-36 checksum |
 | **IFSC** | `isValidIFSC(input)` | Validates 11-char + bank code whitelist |
+| **PAN** | `isValidPAN(input)` | Validates 10-char format + 4th char entity type |
 | **Pincode** | `isValidPincode(input)` | Validates 6-digit + postal circle mapping |
+| **TAN** | `isValidTAN(input)` | Validates 10-character Tax Deduction Account Number — city/AO code + sequence + suffix |
+| **UAN** | `isValidUAN(input)` | Validates 12-digit EPFO Universal Account Number with allocated range verification |
 
 ### Research Suite (Core)
 
@@ -204,6 +217,8 @@ try {
 getGSTINInfo(gstin)    // { state: string }
 getPANInfo(pan)        // { category: string }
 getPincodeInfo(pincode)// { region: string }
+getTANInfo(tan)        // { cityCode, sequenceNumber, lastChar, deductorType }
+getUANInfo(uan)        // { isAllocated, rangeNote }
 ```
 
 ### Input Validation
@@ -218,7 +233,7 @@ All validators:
 
 ## 📚 Documentation Roadmap
 
-Not sure where to start? This table maps your needs to the right documentation:
+Not sure where to start? This table maps your needs to the right documentation. Extended docs are consolidated in HANDBOOK.md:
 
 | I want to... | Resource | Description |
 |---|---|---|
@@ -226,8 +241,8 @@ Not sure where to start? This table maps your needs to the right documentation:
 | **Learn how validators work** | [README.md - How It Works](./README.md#-how-it-works-technical-deep-dive) | Algorithm explanations for each validator |
 | **Use in my project** | [README.md - Quick Start](./README.md#-quick-start) | Copy-paste code examples and usage patterns |
 | **Integrate with Zod** | [README.md - Quick Start](./README.md#-quick-start) | Form validation with Zod schemas |
-| **Understand the architecture** | [COMPLETE_PROJECT_GUIDE.md](./COMPLETE_PROJECT_GUIDE.md) | Full project structure, validators, algorithms, and design |
-| **See all validators & info extractors** | [COMPLETE_PROJECT_GUIDE.md - API Reference](./COMPLETE_PROJECT_GUIDE.md#-api-reference) | Complete function documentation with examples |
+| **Understand the architecture** | [HANDBOOK.md](./HANDBOOK.md) | Full project structure, validators, algorithms, and design |
+| **See all validators & info extractors** | [HANDBOOK.md - API Reference](./HANDBOOK.md#-api-reference) | Complete function documentation with examples |
 | **Contribute code** | [CONTRIBUTING.md](./CONTRIBUTING.md) | Development setup, PR process, testing requirements |
 | **Report a bug** | [CONTRIBUTING.md - Report Bugs](./CONTRIBUTING.md#1-report-bugs-) | Structured bug report template and guidelines |
 | **Request a new validator** | [CONTRIBUTING.md - Feature Requests](./CONTRIBUTING.md#2-suggest-features-or-new-validators-) | How to propose new Indian document validators |
@@ -235,10 +250,10 @@ Not sure where to start? This table maps your needs to the right documentation:
 | **Understand the code style** | [CONTRIBUTING.md - Style Guide](./CONTRIBUTING.md#style-guide) | TypeScript standards, naming conventions, documentation |
 | **Learn git workflow** | [CONTRIBUTING.md - Commit Guidelines](./CONTRIBUTING.md#commit-guidelines) | Conventional Commits, SemVer, branch naming |
 | **Set up development environment** | [CONTRIBUTING.md - Development Setup](./CONTRIBUTING.md#development-setup) | Step-by-step local setup with npm link testing |
-| **See what changed in latest version** | [TECHNICAL_CHANGES_SUMMARY.md](./TECHNICAL_CHANGES_SUMMARY.md) | Audit history, refactoring details, test coverage growth |
-| **Understand the audit process** | [DEPLOYMENT_AUDIT_REPORT.md](./DEPLOYMENT_AUDIT_REPORT.md) | Pre-deployment findings, quality metrics, security checklist |
-| **View test coverage & metrics** | [DEPLOYMENT_AUDIT_REPORT.md - Quality Metrics](./DEPLOYMENT_AUDIT_REPORT.md#quality-metrics) | 86 tests (100% pass), 0 vulnerabilities, full type safety |
-| **Get inspired by contributors** | [CONTRIBUTORS.md](./CONTRIBUTORS.md) | Recognition of all community members who helped |
+| **See what changed in latest version** | [HANDBOOK.md](./HANDBOOK.md) | Audit history, refactoring details, test coverage growth |
+| **Understand the audit process** | [HANDBOOK.md](./HANDBOOK.md) | Pre-deployment findings, quality metrics, security checklist |
+| **View test coverage & metrics** | [HANDBOOK.md - Quality Metrics](./HANDBOOK.md#quality-metrics) | 166+ tests (100% pass), 0 vulnerabilities, full type safety |
+| **Get inspired by contributors** | [HANDBOOK.md](./HANDBOOK.md) | Recognition of all community members who helped |
 | **Join the community** | [CONTRIBUTING.md - Community](./CONTRIBUTING.md#community) | Discord, GitHub Discussions, Twitter, and more |
 | **Troubleshoot issues** | [CONTRIBUTING.md - Troubleshooting](./CONTRIBUTING.md#troubleshooting-guide) | Common problems and their solutions |
 | **Learn about validators in detail** | [CONTRIBUTING.md - Learning Resources](./CONTRIBUTING.md#learning-resources) | References to algorithms, government specs, and tutorials |
@@ -258,7 +273,7 @@ Not sure where to start? This table maps your needs to the right documentation:
 → See [CONTRIBUTING.md - Feature Requests](./CONTRIBUTING.md#2-suggest-features-or-new-validators-) and [feature_request.md template](./.github/ISSUE_TEMPLATE/feature_request.md)
 
 **🏗️ Architect/Deep Diver**
-→ Explore [COMPLETE_PROJECT_GUIDE.md](./COMPLETE_PROJECT_GUIDE.md) for full architecture
+→ Explore [HANDBOOK.md](./HANDBOOK.md) for full architecture
 
 **🔐 Security Researcher**
 → Read [CONTRIBUTING.md - Security](./CONTRIBUTING.md#security-vulnerabilities) for responsible disclosure
@@ -297,6 +312,18 @@ Unlike naive libraries that just use regex patterns, Pramana implements actual m
   - 9: Entity type (P=Person, C=Company, H=HUF, F=Firm, etc.)
   - 10: Check digit (letter)
 - **What we validate**: Format structure + valid entity type in 9th position
+
+### TAN Validation
+- **Algorithm**: Structural + positional character validation
+- **Format**: `AAAA99999A` — 4-char city/AO code, 5-digit sequence, 1-char suffix
+- **What we validate**: Length, character types per position, valid TAN-specific character at position 4 (differs from PAN entity code)
+- **Why it matters**: Distinguishes TAN from PAN at the structural level — a common developer mistake is treating them as interchangeable
+
+### UAN Validation
+- **Algorithm**: Numeric range validation + synthetic pattern detection
+- **Format**: 12-digit purely numeric identifier
+- **What we validate**: Length, numeric purity, EPFO-allocated range, rejection of known synthetic patterns (all-zeros, all-same-digit)
+- **Why it matters**: UAN is lifetime-unique per employee — a fake or malformed UAN will silently fail EPFO API calls in payroll integrations
 
 ### GSTIN Validation
 - **Algorithm**: Mod-36 Checksum
@@ -338,7 +365,7 @@ src/
 # Install dependencies
 npm install
 
-# Run tests (86 tests, 100% pass rate)
+# Run tests (166+ tests, 100% pass rate)
 npm test
 
 # Build for production (CJS + ESM)
@@ -362,9 +389,7 @@ dist/
 ##  Documentation
 
 For more information, see:
-- [**COMPLETE_PROJECT_GUIDE.md**](./COMPLETE_PROJECT_GUIDE.md) - Full project architecture and features
-- [**TECHNICAL_CHANGES_SUMMARY.md**](./TECHNICAL_CHANGES_SUMMARY.md) - Implementation details
-- [**DEPLOYMENT_AUDIT_REPORT.md**](./DEPLOYMENT_AUDIT_REPORT.md) - Quality metrics and test results
+- [**HANDBOOK.md**](./HANDBOOK.md) - Full project architecture, API details, context, and audit history
 
 ## ❓ FAQ
 
@@ -421,7 +446,7 @@ Contributions welcome! Here's how:
 
 ## 📊 Quality Metrics
 
-- ✅ **123+ tests** (100% passing)
+- ✅ **166+ tests** (100% passing)
 - ✅ **0 vulnerabilities** (npm audit clean)
 - ✅ **0 dependencies** (zero runtime dependencies)
 - ✅ **100% tree-shakable** (only import what you need)
@@ -462,9 +487,10 @@ Pramana implements defense-in-depth for PII handling:
 - [x] Voter ID (EPIC) verification
 - [x] PII Scrubbing
 - [x] Phonetic Matching
+- [x] TAN (Tax Deduction and Collection Account Number) validation
+- [x] UAN (Universal Account Number) validation
 
 ### Phase 3
-- [ ] UAN (Universal Account Number) validation
 - [ ] CIN (Corporate Identity Number) validation
 - [ ] Vehicle Registration Number validation
 

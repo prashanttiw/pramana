@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { generateGSTCheckDigit, validateGSTCheckDigit } from './mod36';
+import { generateGSTCheckDigit, validateGSTCheckDigit } from '../../src/utils/mod36';
 
 describe('Mod-36 Checksum (GSTIN)', () => {
     describe('generateGSTCheckDigit', () => {

@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import { isValidGSTIN } from './gstin';
-import { generateGSTCheckDigit } from '../utils/mod36';
+import { isValidGSTIN } from '../../src/validators/gstin';
+import { generateGSTCheckDigit } from '../../src/utils/mod36';
 
 describe('GSTIN Validator', () => {
     it('should validate correct GSTIN numbers', () => {

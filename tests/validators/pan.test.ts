@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { isValidPAN } from './pan';
+import { isValidPAN } from '../../src/validators/pan';
 
 describe('PAN Validator', () => {
     it('should validate correct PAN numbers', () => {

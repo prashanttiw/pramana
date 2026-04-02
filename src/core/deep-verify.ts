@@ -1,13 +1,6 @@
-import { GST_STATE_CODES } from '../data/gst_states';
-
 export type VerificationType = 'VOTER_ID' | 'RC' | 'UDID';
 
-// Invert GST_STATE_CODES to check valid codes (e.g. '07' -> 'Delhi', but usually we need 'DL' -> 'Delhi')
-// Wait, GST codes are numeric '07'. RC/VoterID use Alpha codes 'DL', 'MH'.
-// I need a map of 'DL', 'MH', etc.
-// I'll create a basic list here or reuse if available.
-// Pincode data might map states?
-// I'll define a set of valid State abbreviations.
+// State abbreviations used by Voter ID / vehicle registration formats.
 const VALID_STATE_CODES = new Set([
     'AP', 'AR', 'AS', 'BR', 'CG', 'GA', 'GJ', 'HR', 'HP', 'JK', 'JH', 'KA', 'KL', 'MP', 'MH', 'MN', 'ML', 'MZ', 'NL', 'OR', 'PB', 'RJ', 'SK', 'TN', 'TS', 'TR', 'UP', 'UK', 'WB', 'AN', 'CH', 'DN', 'DD', 'DL', 'LD', 'PY', 'LA'
 ]);

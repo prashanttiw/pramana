@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { validateLuhn } from './checksum';
+import { validateLuhn } from '../../src/utils/checksum';
 
 describe('Checksum Utils', () => {
     describe('validateLuhn', () => {

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { validateVerhoeff, generateVerhoeff } from './verhoeff';
+import { validateVerhoeff, generateVerhoeff } from '../../src/utils/verhoeff';
 
 describe('Verhoeff Algorithm', () => {
     describe('validateVerhoeff', () => {
