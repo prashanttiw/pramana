@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import { isValidAadhaar } from './aadhaar';
-import { generateVerhoeff } from '../utils/verhoeff';
+import { isValidAadhaar } from '../../src/validators/aadhaar';
+import { generateVerhoeff } from '../../src/utils/verhoeff';
 
 describe('Aadhaar Validator', () => {
     it('should validate correct aadhaar numbers', () => {

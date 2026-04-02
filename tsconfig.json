@@ -11,6 +11,8 @@
         "sourceMap": true,
         "strict": true,
         "noImplicitAny": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
         "strictNullChecks": true,
         "strictFunctionTypes": true,
         "strictBindCallApply": true,

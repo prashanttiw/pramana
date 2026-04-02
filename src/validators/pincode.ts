@@ -1,4 +1,4 @@
-import { PINCODE_REGIONS } from '../data/pincodes';
+import { PINCODE_REGIONS } from '../data/postalCircles';
 
 /**
  * Validates an Indian Pincode.

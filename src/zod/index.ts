@@ -2,6 +2,8 @@ import { z } from 'zod';
 import {
     isValidAadhaar,
     isValidPAN,
+    isValidTAN,
+    isValidUAN,
     isValidGSTIN,
     isValidIFSC,
     isValidPincode
@@ -13,6 +15,14 @@ export const aadhaarSchema = z.string().refine(isValidAadhaar, {
 
 export const panSchema = z.string().refine(isValidPAN, {
     message: "Invalid PAN Number",
+});
+
+export const tanSchema = z.string().refine(isValidTAN, {
+    message: 'Invalid TAN — must be 10 characters in format AAAA99999A',
+});
+
+export const uanSchema = z.string().refine(isValidUAN, {
+    message: 'Invalid UAN — must be a 12-digit EPFO Universal Account Number',
 });
 
 export const gstinSchema = z.string().refine(isValidGSTIN, {

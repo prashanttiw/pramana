@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { isValidPincode } from './pincode';
+import { isValidPincode } from '../../src/validators/pincode';
 
 describe('Pincode Validator', () => {
     it('should validate known pincode regions', () => {

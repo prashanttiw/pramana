@@ -1,8 +1,8 @@
 import { describe, it, expect } from 'vitest';
-import { getPANInfo } from './pan';
-import { getGSTINInfo, isValidGSTIN } from './gstin';
-import { getPincodeInfo } from './pincode';
-import { generateGSTCheckDigit } from '../utils/mod36';
+import { getPANInfo } from '../../src/validators/pan';
+import { getGSTINInfo, isValidGSTIN } from '../../src/validators/gstin';
+import { getPincodeInfo } from '../../src/validators/pincode';
+import { generateGSTCheckDigit } from '../../src/utils/mod36';
 
 describe('Metadata Extraction', () => {
     describe('PAN Info', () => {
