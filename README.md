@@ -193,12 +193,15 @@ try {
 | Document | Function | Description |
 |----------|----------|-------------|
 | **Aadhaar** | `isValidAadhaar(input)` | Validates 12-digit UID using Verhoeff algorithm |
+| **Driving License** | `isValidDrivingLicense(input)` | Validates Indian DL - state code + RTO code + serial. Handles both pre-2021 and post-2021 standardised formats |
 | **GSTIN** | `isValidGSTIN(input)` | Validates 15-char format + Mod-36 checksum |
 | **IFSC** | `isValidIFSC(input)` | Validates 11-char + bank code whitelist |
 | **PAN** | `isValidPAN(input)` | Validates 10-char format + 4th char entity type |
+| **Passport** | `isValidPassport(input)` | Validates Indian passport number - 8-char format (1 letter + 7 digits) with active series verification |
 | **Pincode** | `isValidPincode(input)` | Validates 6-digit + postal circle mapping |
-| **TAN** | `isValidTAN(input)` | Validates 10-character Tax Deduction Account Number — city/AO code + sequence + suffix |
+| **TAN** | `isValidTAN(input)` | Validates 10-character Tax Deduction Account Number - city/AO code + sequence + suffix |
 | **UAN** | `isValidUAN(input)` | Validates 12-digit EPFO Universal Account Number with allocated range verification |
+| **Voter ID** | `isValidVoterID(input)` | Validates EPIC card number - 3-char ECI state prefix + 7-digit sequence |
 
 ### Research Suite (Core)
 
@@ -219,6 +222,9 @@ getPANInfo(pan)        // { category: string }
 getPincodeInfo(pincode)// { region: string }
 getTANInfo(tan)        // { cityCode, sequenceNumber, lastChar, deductorType }
 getUANInfo(uan)        // { isAllocated, rangeNote }
+getDrivingLicenseInfo(dl)  // { stateName, rtoCode, format, yearHint }
+getPassportInfo(passport)  // { series, seriesType, sequenceNumber }
+getVoterIDInfo(voterId)    // { stateName, sequenceNumber }
 ```
 
 ### Input Validation
@@ -344,6 +350,26 @@ Unlike naive libraries that just use regex patterns, Pramana implements actual m
 - **Example**: `11****` = Delhi, `40****` = Maharashtra
 - **Why it matters**: Prevents invalid geographic codes like `99****`
 
+### Voter ID Validation
+- **Algorithm**: Format validation + ECI state prefix whitelist
+- **Format**: 3 alpha (state code) + 7 digits (sequence)
+- **What we validate**: Exact format, valid ECI-assigned state prefix
+- **Why it matters**: First Indian library to validate against actual ECI prefix list
+
+### Driving License Validation
+- **Algorithm**: Format validation + state code whitelist + RTO range check
+- **Formats supported**: Pre-2021 regional format AND post-2021 MoRTH standard
+- **What we validate**: State code, RTO code validity, length per format era
+- **Why it matters**: Handles both legacy and standardised DLs - critical for
+  background-check and mobility apps that see both formats in the wild
+
+### Passport Validation
+- **Algorithm**: Active series whitelist + format structure validation
+- **Format**: 1 series letter + 7 sequential digits
+- **What we validate**: Valid Indian passport series (not all 26 letters are issued),
+  digit-only portion, structural integrity
+- **Why it matters**: Rejects syntactically valid but never-issued series letters
+
 ---
 
 ## 🛠️ Development
@@ -446,7 +472,7 @@ Contributions welcome! Here's how:
 
 ## 📊 Quality Metrics
 
-- ✅ **166+ tests** (100% passing)
+- **86 + Batch01 + Batch02 total tests** (100% passing)
 - ✅ **0 vulnerabilities** (npm audit clean)
 - ✅ **0 dependencies** (zero runtime dependencies)
 - ✅ **100% tree-shakable** (only import what you need)
@@ -485,6 +511,8 @@ Pramana implements defense-in-depth for PII handling:
 ### Phase 2 (Completed)
 - [x] Research & AI Suite
 - [x] Voter ID (EPIC) verification
+- [x] Driving License (DL) validation
+- [x] Passport validation
 - [x] PII Scrubbing
 - [x] Phonetic Matching
 - [x] TAN (Tax Deduction and Collection Account Number) validation
@@ -508,3 +536,7 @@ Pramana is maintained by the community. Contributions from developers across Ind
 ---
 
 **Made with ❤️ for India** 🇮🇳
+
+
+
+
