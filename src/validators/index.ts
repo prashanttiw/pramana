@@ -5,3 +5,6 @@ export * from './uan';
 export * from './gstin';
 export * from './ifsc';
 export * from './pincode';
+export * from './voterId';
+export * from './drivingLicense';
+export * from './passport';
