@@ -11,3 +11,5 @@ export { isValidDrivingLicense, getDrivingLicenseInfo } from './validators/drivi
 export type { DLInfo } from './validators/drivingLicense';
 export { isValidPassport, getPassportInfo } from './validators/passport';
 export type { PassportInfo } from './validators/passport';
+export { isValidUPI, getUPIInfo } from './validators/upi';
+export type { UPIInfo } from './validators/upi';
