@@ -8,3 +8,4 @@ export * from './pincode';
 export * from './voterId';
 export * from './drivingLicense';
 export * from './passport';
+export * from './upi';

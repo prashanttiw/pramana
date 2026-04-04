@@ -7,6 +7,7 @@ import {
     voterIdSchema,
     drivingLicenseSchema,
     passportSchema,
+    upiSchema,
 } from '../../src/zod';
 
 describe('Zod Adapters', () => {
@@ -35,7 +36,7 @@ describe('Zod Adapters', () => {
         const result = voterIdSchema.safeParse('ABC0000000');
         expect(result.success).toBe(false);
         if (!result.success) {
-            expect(result.error.issues[0].message).toBe('Invalid Voter ID — must be in format ABC1234567 (3 letters + 7 digits)');
+            expect(result.error.issues[0].message).toBe('Invalid Voter ID \u2014 must be in format ABC1234567 (3 letters + 7 digits)');
         }
     });
 
@@ -47,7 +48,7 @@ describe('Zod Adapters', () => {
         const result = drivingLicenseSchema.safeParse('ZZ-00-20110169971');
         expect(result.success).toBe(false);
         if (!result.success) {
-            expect(result.error.issues[0].message).toBe('Invalid Driving License — expected format: SS00YYYYNNNNNNN');
+            expect(result.error.issues[0].message).toBe('Invalid Driving License \u2014 expected format: SS00YYYYNNNNNNN');
         }
     });
 
@@ -60,7 +61,20 @@ describe('Zod Adapters', () => {
         const result = passportSchema.safeParse('A0000000');
         expect(result.success).toBe(false);
         if (!result.success) {
-            expect(result.error.issues[0].message).toBe('Invalid Indian passport number � expected format: A1234567');
+            expect(result.error.issues[0].message).toBe('Invalid Indian passport number \u2014 expected format: A1234567');
+        }
+    });
+
+    it('should validate UPI schema', () => {
+        expect(upiSchema.safeParse('name@okaxis').success).toBe(true);
+        expect(upiSchema.safeParse('9876543210@UPI').success).toBe(true);
+    });
+
+    it('should return error for invalid UPI schema', () => {
+        const result = upiSchema.safeParse('name@notarealpsp');
+        expect(result.success).toBe(false);
+        if (!result.success) {
+            expect(result.error.issues[0].message).toBe('Invalid UPI ID \u2014 expected format: handle@provider (e.g., name@okaxis)');
         }
     });
 
