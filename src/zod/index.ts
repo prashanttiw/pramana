@@ -11,6 +11,9 @@ import {
     isValidDrivingLicense,
     isValidPassport,
     isValidUPI,
+    isValidIndianPhone,
+    isValidMSME,
+    isValidUAM,
 } from '../validators';
 
 export const aadhaarSchema = z.string().refine(isValidAadhaar, {
@@ -55,4 +58,16 @@ export const passportSchema = z.string().refine(isValidPassport, {
 
 export const upiSchema = z.string().refine(isValidUPI, {
     message: 'Invalid UPI ID \u2014 expected format: handle@provider (e.g., name@okaxis)',
+});
+
+export const indianPhoneSchema = z.string().refine(isValidIndianPhone, {
+    message: 'Invalid Indian mobile number \u2014 must be a 10-digit TRAI-allocated number',
+});
+
+export const msmeSchema = z.string().refine(isValidMSME, {
+    message: 'Invalid MSME number \u2014 expected format: UDYAM-MH-07-0012345',
+});
+
+export const uamSchema = z.string().refine(isValidUAM, {
+    message: 'Invalid UAM number \u2014 expected format: DL05A0000001',
 });

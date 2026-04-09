@@ -9,3 +9,5 @@ export * from './voterId';
 export * from './drivingLicense';
 export * from './passport';
 export * from './upi';
+export * from './phone';
+export * from './msme';

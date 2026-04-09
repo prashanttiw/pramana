@@ -31,7 +31,7 @@ Now upgraded to **Pramana 2.0**, it features a **Research & AI Suite** designed 
   - **TAN**: Structural validation (`AAAA99999A`)
   - **IFSC**: Bank code whitelist validation
   - **Pincode**: Postal circle validation
-- **Production-Ready**: Comprehensive tests (100% pass rate), 0 vulnerabilities
+- **Production-Ready**: Comprehensive tests (538+ passing), 0 vulnerabilities
 - **Modular & Tree-Shakable**: Import only what you need
 - **TypeScript Support**: Full type definitions included
 - **Zod Integration**: Optional pre-built Zod schemas available
@@ -201,6 +201,9 @@ try {
 | **Pincode** | `isValidPincode(input)` | Validates 6-digit + postal circle mapping |
 | **TAN** | `isValidTAN(input)` | Validates 10-character Tax Deduction Account Number - city/AO code + sequence + suffix |
 | **UAN** | `isValidUAN(input)` | Validates 12-digit EPFO Universal Account Number with allocated range verification |
+| **Indian Phone** | `isValidIndianPhone(input)` | Validates Indian mobile numbers with TRAI series allocation check — not just regex |
+| **MSME / Udyam** | `isValidMSME(input)` | Validates Udyam registration format: UDYAM-XX-00-0000000 with state/district codes |
+| **UPI ID** | `isValidUPI(input)` | Validates Virtual Payment Address against full NPCI PSP handle whitelist |
 | **Voter ID** | `isValidVoterID(input)` | Validates EPIC card number - 3-char ECI state prefix + 7-digit sequence |
 
 ### Research Suite (Core)
@@ -225,6 +228,9 @@ getUANInfo(uan)        // { isAllocated, rangeNote }
 getDrivingLicenseInfo(dl)  // { stateName, rtoCode, format, yearHint }
 getPassportInfo(passport)  // { series, seriesType, sequenceNumber }
 getVoterIDInfo(voterId)    // { stateName, sequenceNumber }
+getUPIInfo(upi)            // { handle, provider, bank, type }
+getPhoneInfo(phone)        // { normalized, withCountryCode, series }
+getMSMEInfo(msme)          // { format, stateName, districtCode, serialNumber }
 ```
 
 ### Input Validation
@@ -258,7 +264,7 @@ Not sure where to start? This table maps your needs to the right documentation. 
 | **Set up development environment** | [CONTRIBUTING.md - Development Setup](./CONTRIBUTING.md#development-setup) | Step-by-step local setup with npm link testing |
 | **See what changed in latest version** | [HANDBOOK.md](./HANDBOOK.md) | Audit history, refactoring details, test coverage growth |
 | **Understand the audit process** | [HANDBOOK.md](./HANDBOOK.md) | Pre-deployment findings, quality metrics, security checklist |
-| **View test coverage & metrics** | [HANDBOOK.md - Quality Metrics](./HANDBOOK.md#quality-metrics) | 166+ tests (100% pass), 0 vulnerabilities, full type safety |
+| **View test coverage & metrics** | [HANDBOOK.md - Quality Metrics](./HANDBOOK.md#quality-metrics) | 538+ tests (100% pass), 0 vulnerabilities, full type safety |
 | **Get inspired by contributors** | [HANDBOOK.md](./HANDBOOK.md) | Recognition of all community members who helped |
 | **Join the community** | [CONTRIBUTING.md - Community](./CONTRIBUTING.md#community) | Discord, GitHub Discussions, Twitter, and more |
 | **Troubleshoot issues** | [CONTRIBUTING.md - Troubleshooting](./CONTRIBUTING.md#troubleshooting-guide) | Common problems and their solutions |
@@ -370,6 +376,22 @@ Unlike naive libraries that just use regex patterns, Pramana implements actual m
   digit-only portion, structural integrity
 - **Why it matters**: Rejects syntactically valid but never-issued series letters
 
+### UPI ID Validation
+- **Algorithm**: Format validation + NPCI PSP handle whitelist
+- **What we validate**: VPA format (`handle@provider`), valid provider from NPCI-registered PSP list, handle character rules (no consecutive special chars)
+- **Why it matters**: Validates against real PSP handles, not just `@` presence. Catches fake handles that pass simple regex.
+
+### Indian Phone Validation
+- **Algorithm**: TRAI series allocation validation
+- **What we validate**: 10-digit format, TRAI-allocated series (`6-9`), sub-range check for 6-series (not fully allocated), known synthetic patterns
+- **Why it matters**: Standard regex only checks 10 digits starting with 6-9. Pramana validates against actual TRAI allocation — catches real invalid numbers that pass naive regex.
+
+### MSME / Udyam Validation
+- **Algorithm**: Structural segment validation + state code whitelist
+- **Format**: `UDYAM-XX-00-0000000`
+- **What we validate**: Fixed prefix, state code, district range (`01-99`), 7-digit serial not all-zeros
+- **Why it matters**: Every B2B fintech and MSME lending platform needs this. No other npm library validates Udyam numbers.
+
 ---
 
 ## 🛠️ Development
@@ -391,7 +413,7 @@ src/
 # Install dependencies
 npm install
 
-# Run tests (166+ tests, 100% pass rate)
+# Run tests (538+ tests, 100% pass rate)
 npm test
 
 # Build for production (CJS + ESM)
@@ -472,7 +494,7 @@ Contributions welcome! Here's how:
 
 ## 📊 Quality Metrics
 
-- **86 + Batch01 + Batch02 total tests** (100% passing)
+- **538+ total tests** (100% passing)
 - ✅ **0 vulnerabilities** (npm audit clean)
 - ✅ **0 dependencies** (zero runtime dependencies)
 - ✅ **100% tree-shakable** (only import what you need)
@@ -518,11 +540,16 @@ Pramana implements defense-in-depth for PII handling:
 - [x] TAN (Tax Deduction and Collection Account Number) validation
 - [x] UAN (Universal Account Number) validation
 
-### Phase 3
+### Phase 3 (Completed - Batch 03)
+- [x] UPI ID validation with NPCI PSP handle whitelist
+- [x] Indian phone validation with TRAI series-aware rules
+- [x] MSME / Udyam registration validation
+
+### Phase 4
 - [ ] CIN (Corporate Identity Number) validation
 - [ ] Vehicle Registration Number validation
 
-### Phase 4
+### Phase 5
 - [ ] Benchmarks & CLI tool
 
 ## 📜 License
