@@ -13,3 +13,7 @@ export { isValidPassport, getPassportInfo } from './validators/passport';
 export type { PassportInfo } from './validators/passport';
 export { isValidUPI, getUPIInfo } from './validators/upi';
 export type { UPIInfo } from './validators/upi';
+export { normalisePhone, isValidIndianPhone, getPhoneInfo } from './validators/phone';
+export type { PhoneInfo } from './validators/phone';
+export { isValidMSME, getMSMEInfo } from './validators/msme';
+export type { MSMEInfo } from './validators/msme';

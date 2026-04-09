@@ -8,6 +8,9 @@ import {
     drivingLicenseSchema,
     passportSchema,
     upiSchema,
+    indianPhoneSchema,
+    msmeSchema,
+    uamSchema,
 } from '../../src/zod';
 
 describe('Zod Adapters', () => {
@@ -75,6 +78,42 @@ describe('Zod Adapters', () => {
         expect(result.success).toBe(false);
         if (!result.success) {
             expect(result.error.issues[0].message).toBe('Invalid UPI ID \u2014 expected format: handle@provider (e.g., name@okaxis)');
+        }
+    });
+
+    it('should validate Indian phone schema', () => {
+        expect(indianPhoneSchema.safeParse('+91 98765 43210').success).toBe(true);
+    });
+
+    it('should return error for invalid Indian phone schema', () => {
+        const result = indianPhoneSchema.safeParse('1234567890');
+        expect(result.success).toBe(false);
+        if (!result.success) {
+            expect(result.error.issues[0].message).toBe('Invalid Indian mobile number \u2014 must be a 10-digit TRAI-allocated number');
+        }
+    });
+
+    it('should validate MSME schema', () => {
+        expect(msmeSchema.safeParse('UDYAM-MH-07-0012345').success).toBe(true);
+    });
+
+    it('should return error for invalid MSME schema', () => {
+        const result = msmeSchema.safeParse('UDYAM-MH-00-0000000');
+        expect(result.success).toBe(false);
+        if (!result.success) {
+            expect(result.error.issues[0].message).toBe('Invalid MSME number \u2014 expected format: UDYAM-MH-07-0012345');
+        }
+    });
+
+    it('should validate UAM schema', () => {
+        expect(uamSchema.safeParse('DL05A0000001').success).toBe(true);
+    });
+
+    it('should return error for invalid UAM schema', () => {
+        const result = uamSchema.safeParse('ZZ05A0000001');
+        expect(result.success).toBe(false);
+        if (!result.success) {
+            expect(result.error.issues[0].message).toBe('Invalid UAM number \u2014 expected format: DL05A0000001');
         }
     });
 
