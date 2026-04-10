@@ -3,8 +3,13 @@ dist
 dist/
 coverage
 .env
+.env.*
+!.env.example
 .DS_Store
 .npmignore
 *.tgz
 debug_gen.js
 *.js.map
+*.log
+.idea/
+.vscode/
