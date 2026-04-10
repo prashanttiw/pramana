@@ -17,3 +17,35 @@ export { normalisePhone, isValidIndianPhone, getPhoneInfo } from './validators/p
 export type { PhoneInfo } from './validators/phone';
 export { isValidMSME, getMSMEInfo } from './validators/msme';
 export type { MSMEInfo } from './validators/msme';
+export {
+    detectFraudSignals,
+    detectAadhaarFraud,
+    detectPANFraud,
+    detectGSTINFraud,
+    detectIFSCFraud,
+    detectPincodeFraud,
+    detectTANFraud,
+    detectUANFraud,
+    detectPhoneFraud,
+    detectUPIFraud,
+    detectMSMEFraud,
+} from './intelligence/fraudSignals';
+export type {
+    FraudDetectionResult,
+    FraudSignal,
+    FraudRisk,
+    FraudSignalType,
+} from './intelligence/fraudSignals';
+export { suggestCorrection } from './intelligence/correction';
+export type {
+    CorrectionResult,
+    CorrectionCandidate,
+    CorrectionConfidence,
+} from './intelligence/correction';
+export { validateKYCBundle } from './intelligence/kycBundle';
+export type {
+    KYCBundleInput,
+    KYCBundleResult,
+    DocumentValidationDetail,
+    CrossCheckResult,
+} from './intelligence/kycBundle';

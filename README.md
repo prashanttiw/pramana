@@ -31,7 +31,7 @@ Now upgraded to **Pramana 2.0**, it features a **Research & AI Suite** designed 
   - **TAN**: Structural validation (`AAAA99999A`)
   - **IFSC**: Bank code whitelist validation
   - **Pincode**: Postal circle validation
-- **Production-Ready**: Comprehensive tests (538+ passing), 0 vulnerabilities
+- **Production-Ready**: Comprehensive tests (729+ passing), 0 vulnerabilities
 - **Modular & Tree-Shakable**: Import only what you need
 - **TypeScript Support**: Full type definitions included
 - **Zod Integration**: Optional pre-built Zod schemas available
@@ -243,6 +243,69 @@ All validators:
 - ✅ Return `false` for invalid inputs (no exceptions thrown)
 ---
 
+## Intelligence layer
+
+Pramana goes beyond format validation. The intelligence layer detects
+synthetically generated numbers, recovers from single-digit typos, and
+validates entire KYC document sets for cross-document consistency.
+
+### `detectFraudSignals(documentType, input)`
+
+Detects mathematically valid but synthetically generated document numbers.
+Returns a suspicion score (`0.0-1.0`), risk level, and named signal types.
+
+```typescript
+import { detectFraudSignals } from '@prashanttiw/pramana';
+
+const fraud = detectFraudSignals('aadhaar', '999999990019');
+
+console.log(fraud.suspicionScore); // 1
+console.log(fraud.risk); // 'CRITICAL' (high-severity; current policy can classify as HIGH/CRITICAL)
+console.log(fraud.signals.map((s) => s.type));
+// ['known_test_range', 'majority_same_digit']
+```
+
+### `suggestCorrection(documentType, input)`
+
+When a document number fails validation, Pramana attempts algorithmic recovery:
+- Aadhaar: iterates Verhoeff checksum candidates for single-digit typos
+- GSTIN: directly calculates the correct check digit via inverse Mod-36
+- Other documents: returns a structural hint pointing to the first failing rule
+
+```typescript
+import { suggestCorrection } from '@prashanttiw/pramana';
+
+const correction = suggestCorrection('aadhaar', '999999990018');
+
+console.log(correction.isAlreadyValid); // false
+console.log(correction.primarySuggestion); // '999999990019'
+console.log(correction.confidence); // 'MEDIUM'
+```
+
+### `validateKYCBundle(input)`
+
+Validates a complete set of Indian identity documents in one call.
+Performs individual validation, cross-document consistency checks
+(GSTIN/PAN entity matching, state consistency), fraud signal detection,
+and returns a unified KYC score (`0-100`) with pass/fail/manual-review verdict.
+
+```typescript
+import { validateKYCBundle } from '@prashanttiw/pramana';
+
+const report = validateKYCBundle({
+  aadhaar: '284739105826',
+  pan: 'AAPFR5055K',
+  gstin: '27AAPFR5055K1ZM',
+  drivingLicense: 'MH0120110169971',
+  phone: '9128047356',
+});
+
+console.log(report.overallResult); // 'PASS' | 'MANUAL_REVIEW' | 'FAIL'
+console.log(report.kycScore); // e.g., 90
+console.log(report.crossChecks);
+console.log(report.summary);
+```
+
 ## 📚 Documentation Roadmap
 
 Not sure where to start? This table maps your needs to the right documentation. Extended docs are consolidated in HANDBOOK.md:
@@ -264,7 +327,7 @@ Not sure where to start? This table maps your needs to the right documentation. 
 | **Set up development environment** | [CONTRIBUTING.md - Development Setup](./CONTRIBUTING.md#development-setup) | Step-by-step local setup with npm link testing |
 | **See what changed in latest version** | [HANDBOOK.md](./HANDBOOK.md) | Audit history, refactoring details, test coverage growth |
 | **Understand the audit process** | [HANDBOOK.md](./HANDBOOK.md) | Pre-deployment findings, quality metrics, security checklist |
-| **View test coverage & metrics** | [HANDBOOK.md - Quality Metrics](./HANDBOOK.md#quality-metrics) | 538+ tests (100% pass), 0 vulnerabilities, full type safety |
+| **View test coverage & metrics** | [HANDBOOK.md - Quality Metrics](./HANDBOOK.md#quality-metrics) | 729+ tests (100% pass), 0 vulnerabilities, full type safety |
 | **Get inspired by contributors** | [HANDBOOK.md](./HANDBOOK.md) | Recognition of all community members who helped |
 | **Join the community** | [CONTRIBUTING.md - Community](./CONTRIBUTING.md#community) | Discord, GitHub Discussions, Twitter, and more |
 | **Troubleshoot issues** | [CONTRIBUTING.md - Troubleshooting](./CONTRIBUTING.md#troubleshooting-guide) | Common problems and their solutions |
@@ -413,7 +476,7 @@ src/
 # Install dependencies
 npm install
 
-# Run tests (538+ tests, 100% pass rate)
+# Run tests (729+ tests, 100% pass rate)
 npm test
 
 # Build for production (CJS + ESM)
@@ -494,12 +557,13 @@ Contributions welcome! Here's how:
 
 ## 📊 Quality Metrics
 
-- **538+ total tests** (100% passing)
+- **729+ total tests** (100% passing)
 - ✅ **0 vulnerabilities** (npm audit clean)
 - ✅ **0 dependencies** (zero runtime dependencies)
 - ✅ **100% tree-shakable** (only import what you need)
 - ✅ **Full TypeScript support** (strict mode)
 - ✅ **Cross-platform** (Node.js, browsers, Edge functions)
+- **Intelligence layer milestone**: "Intelligence layer features are the first implementation of algorithmic fraud detection and checksum recovery in an Indian npm library"
 
 ## ⚡ Performance Benchmarks
 
