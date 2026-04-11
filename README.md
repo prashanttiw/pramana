@@ -1,4 +1,4 @@
-# Pramana (प्रमाण)
+﻿# Pramana (प्रमाण)
 
 Pramana is a **high-performance, zero-dependency, production-ready Data Integrity Suite** for Indian identity and financial documents. It validates not just the format but the actual **mathematical checksums** to ensure 100% accuracy.
 
@@ -185,6 +185,77 @@ try {
   console.error('Validation errors:', error.errors);
 }
 ```
+
+## CLI
+
+Pramana includes a full-featured CLI for terminal-based document validation.
+
+```bash
+# One-off validation (no install required)
+npx @prashanttiw/pramana validate aadhaar 999999990019
+
+# Or install globally
+npm install -g @prashanttiw/pramana
+pramana validate gstin 29ABCDE1234F1Z5
+```
+
+### Commands
+
+#### `validate` - Single document
+```bash
+pramana validate <type> <value>
+
+# Examples
+pramana validate aadhaar 999999990019
+pramana validate pan ABCPE1234F
+pramana validate gstin 29ABCDE1234F1Z5 --json    # JSON output for piping
+pramana validate aadhaar 999999990018            # shows correction suggestion
+```
+
+#### `check-kyc` - Interactive KYC bundle
+```bash
+pramana check-kyc
+# Interactive multi-select: choose documents, enter values,
+# get full KYC report with cross-consistency checks
+```
+
+#### `batch` - Bulk file validation
+```bash
+pramana batch --file records.csv --type aadhaar
+pramana batch --file kyc.json --type pan --column pan_number
+```
+
+#### `info` - Algorithm reference
+```bash
+pramana info aadhaar          # shows Verhoeff algorithm details
+pramana info gstin            # shows Mod-36 explanation
+pramana info --list           # all supported document types
+```
+
+> 💡 *Screenshot: `pramana check-kyc` interactive mode*  
+> [screenshot placeholder - add after first demo run]
+
+### Record CLI Demo (asciinema)
+
+After building, record a real terminal session and embed it as a GIF in this README for maximum visual impact.
+
+```bash
+# 1) Build
+npm run build
+
+# 2) Record
+asciinema rec pramana-cli.cast
+# Run your best demo flow here:
+# pramana validate aadhaar 999999990019
+# pramana check-kyc
+# pramana info --list
+# Press Ctrl+D to stop recording
+
+# 3) Convert cast to GIF (using agg)
+agg pramana-cli.cast pramana-cli.gif
+```
+
+Then commit `pramana-cli.gif` (or hosted media link) and place it below the CLI section.
 
 ## 📚 API Reference
 
@@ -622,7 +693,7 @@ ISC License - See LICENSE file for details
 
 ## ❤️ Authors
 
-Pramana is maintained by the community. Contributions from developers across India are welcome!
+Pramana is maintained by the community. Contributions from developers across The World are welcome!
 
 ---
 
