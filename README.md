@@ -257,6 +257,99 @@ agg pramana-cli.cast pramana-cli.gif
 
 Then commit `pramana-cli.gif` (or hosted media link) and place it below the CLI section.
 
+## Integrations
+
+Pramana provides optional adapters for popular frameworks and validation
+libraries. Each is a separate subpath - install only what you use.
+
+### Express middleware
+
+```bash
+npm install express @prashanttiw/pramana
+```
+
+```typescript
+import { pramanaMiddleware } from '@prashanttiw/pramana/express'
+
+app.post('/api/kyc',
+  pramanaMiddleware([
+    { field: 'aadhaar', type: 'aadhaar' },
+    { field: 'pan', type: 'pan' },
+    { field: 'gstin', type: 'gstin', optional: true },
+  ]),
+  (req, res) => res.json({ success: true })
+)
+// Returns 422 with structured errors if validation fails
+```
+
+### Yup
+
+```bash
+npm install yup @prashanttiw/pramana
+```
+
+```typescript
+import * as yup from 'yup'
+import { setupPramanaYup } from '@prashanttiw/pramana/yup'
+setupPramanaYup()
+
+const schema = yup.object({
+  aadhaar: yup.string().required().aadhaar(),
+  pan: yup.string().required().pan(),
+})
+```
+
+### Valibot
+
+```bash
+npm install valibot @prashanttiw/pramana
+```
+
+```typescript
+import * as v from 'valibot'
+import { aadhaar, pan } from '@prashanttiw/pramana/valibot'
+
+const schema = v.object({
+  aadhaarNumber: v.pipe(v.string(), aadhaar()),
+  panNumber: v.pipe(v.string(), pan()),
+})
+```
+
+### React hook
+
+```bash
+npm install react @prashanttiw/pramana
+```
+
+```typescript
+import { useValidator } from '@prashanttiw/pramana/react'
+
+function AadhaarInput() {
+  const { isValid, error, inputProps } = useValidator('aadhaar')
+  return (
+    <div>
+      <input {...inputProps} placeholder="Aadhaar number" />
+      {error && <span>{error}</span>}
+    </div>
+  )
+}
+```
+
+### React Hook Form
+
+```bash
+npm install react-hook-form @prashanttiw/pramana
+```
+
+```typescript
+import { useForm } from 'react-hook-form'
+import { pramanaResolver } from '@prashanttiw/pramana/rhf'
+
+const { register, handleSubmit, formState: { errors } } = useForm({
+  resolver: pramanaResolver({ aadhaar: 'aadhaar', pan: 'pan' })
+})
+```
+
 ## 📚 API Reference
 
 ### Validators
@@ -632,6 +725,7 @@ Contributions welcome! Here's how:
 - ✅ **0 vulnerabilities** (npm audit clean)
 - ✅ **0 dependencies** (zero runtime dependencies)
 - ✅ **100% tree-shakable** (only import what you need)
+- **6 framework integrations**: Zod, Yup, Valibot, Express, React, React Hook Form
 - ✅ **Full TypeScript support** (strict mode)
 - ✅ **Cross-platform** (Node.js, browsers, Edge functions)
 - **Intelligence layer milestone**: "Intelligence layer features are the first implementation of algorithmic fraud detection and checksum recovery in an Indian npm library"
