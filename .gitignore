@@ -13,3 +13,6 @@ debug_gen.js
 *.log
 .idea/
 .vscode/
+.tmp-*
+*.tmp
+pramana
